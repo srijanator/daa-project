@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "express": "^5.1.0",
+    "kdbush": "^3.0.0",
+    "tinyqueue": "^2.0.3"
+  }
+}
