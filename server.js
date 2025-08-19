@@ -44,7 +44,16 @@ function haversineDistance(coord1, coord2) {
 // Step 2: Use spatial index to find nearest node
 function getNearestNode(coord) {
   const [lng, lat] = coord;
-  const candidates = index.within(lng, lat, 0.1); // radius in degrees (~10km)
+  let radius = 0.1; // initial search radius in degrees (~10km)
+  let candidates = [];
+
+  // Gradually expand search radius until at least one node is found or a
+  // generous upper bound is reached to avoid returning null for nearby
+  // points outside the initial radius.
+  while (candidates.length === 0 && radius <= 5) {
+    candidates = index.within(lng, lat, radius);
+    radius *= 2;
+  }
 
   let nearest = null;
   let minDist = Infinity;
